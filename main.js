@@ -16,15 +16,28 @@ const mockUpStrand = () => {
 const pAequorFactory = (num, dnaArr) => {
   return {
     specimenNum: num,
-    specimenDna: dnaArr,
+    specimenDNA: dnaArr,
     mutate() {
       const randBase = Math.floor(Math.random() * 15)
       let newBase = ''
       do {
         newBase = returnRandBase()
       } while (dnaArr[randBase] === newBase)
-      dnaArr[randBase] = newBase
-      return dnaArr
+      this.specimenDNA[randBase] = newBase
+      return this.specimenDNA
+    },
+    compareDNA(pAequorObj) {
+      const thisSpecimenDNA = this.specimenDNA
+      const specimen2DNA = pAequorObj.specimenDNA
+      let matches = 0
+      let commonDNA
+      thisSpecimenDNA.forEach((b, i) => {
+        if (b === specimen2DNA[i]) {
+          matches ++
+        }
+      })
+      commonDNA = (matches / 15) * 100
+      console.log(`This specimen (${this.specimenNum}) and speciment #2 (${pAequorObj.specimenNum}) have ${commonDNA.toFixed(2)}% DNA in common.`)
     }
   }
 }
@@ -36,12 +49,13 @@ const pAequorFactory = (num, dnaArr) => {
 let testSpecimen1 = pAequorFactory(101, ['A','A','A','A','A','A','A','A','A','A','A','A','A','A','A'])
 let testSpecimen2 = pAequorFactory(102, mockUpStrand())
 console.log(`testSpecimen1.specimenNum: ${testSpecimen1.specimenNum}`)
-console.log(`testSpecimen1.specimenDna: ${testSpecimen1.specimenDna}`)
-console.log(`testSpecimen1.mutate: ${testSpecimen1.mutate()}`)
-console.log(`testSpecimen1 mutated DNA: ${testSpecimen1.specimenDna}`)
+console.log(`testSpecimen1.specimenDNA: ${testSpecimen1.specimenDNA}`)
+// console.log(`testSpecimen1.mutate: ${testSpecimen1.mutate()}`)
+// console.log(`testSpecimen1.specimenDNA: ${testSpecimen1.specimenDNA}`)
 console.log(`testSpecimen2.specimenNum: ${testSpecimen2.specimenNum}`)
-console.log(`testSpecimen2.specimenDna: ${testSpecimen2.specimenDna}`)
-console.log(`testSpecimen2.mutate: ${testSpecimen2.mutate()}`)
+console.log(`testSpecimen2.specimenDNA: ${testSpecimen2.specimenDNA}`)
+// console.log(`testSpecimen2.mutate: ${testSpecimen2.mutate()}`)
+testSpecimen1.compareDNA(testSpecimen2)
 
 
 
